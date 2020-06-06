@@ -1,0 +1,45 @@
+{
+  "name": "rdxh",
+  "version": "0.0.1",
+  "description": "Helper to reduce the redux boilerplate code.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+	"build": "rm -fr ./dist && tsc",
+    "test": "jest",
+	"lint": "tslint -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thunpin/rdxh.git"
+  },
+  "keywords": [
+    "redux"
+  ],
+  "author": "thunpin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thunpin/rdxh/issues"
+  },
+  "homepage": "https://github.com/thunpin/rdxh#readme",
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "ts",
+      "tsx"
+    ]
+  },
+  "dependencies": {},
+  "include": ["src"],
+  "exclude": ["node_modules", "coverage"],
+  "files": ["dist/**/*"]
+}
