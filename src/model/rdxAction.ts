@@ -7,5 +7,6 @@ export interface Rdx<T> {
     reset: () => Action<any>
     reducer: (state?: State<T>, action?: Action<any>) => State<T>
     toState: (reduxState: any) => State<T>
+    toCombineReducer: any
 }
 export type RdxAction<T, R> = ActionFunction<T> & Rdx<R>

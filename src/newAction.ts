@@ -22,7 +22,13 @@ export const newAction = <T, R>(actionName: string, executeState: toResult<T, R>
         const states = {}
         states[executeType] = (state, action) => ({content: executeState(action.payload, state.content)})
         states[resetType] = () => defaultState
-        return actionObject.reducer = createReducer<State<R>>(defaultState, states)
+        actionObject.reducer = createReducer<State<R>>(defaultState, states)
+    }
+
+    const addToCombineReducer = (actionObject:any) => {
+        const combinedReducer = {}
+        combinedReducer[actionName] = actionObject.reducer
+        actionObject.toCombineReducer = combinedReducer
     }
 
     return [
@@ -30,6 +36,7 @@ export const newAction = <T, R>(actionName: string, executeState: toResult<T, R>
         addClearAction,
         addToState,
         addReducer,
+        addToCombineReducer
     ].reduce(apply, newActionObject)
 }
 

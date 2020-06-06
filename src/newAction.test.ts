@@ -27,6 +27,10 @@ describe('newAction', () => {
         const reduxState = {'@my-to-state': {content: 20}}
         expect(myAction.toState(reduxState)).toEqual(defaultState)
     })
+    test('should create an object to add on combineReducer', () => {
+        const myAction = newAction<number, number>('@my-combined-reducer', value => value)
+        expect(myAction.toCombineReducer[myAction.type]).toEqual(myAction.reducer)
+    })
     describe('reducer', () => {
         test('should return the content', () => {
             const myAction = newAction('@my-newAction-number-with-reducer', value => value)
