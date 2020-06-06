@@ -1,8 +1,8 @@
-#Redux Helper
+# Redux Helper
 
 Helper to reduce the redux code boilerplate.
 
-##Install
+## Install
 
 `npm i rdxh`
 
