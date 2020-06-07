@@ -1,12 +1,20 @@
 import {Action} from './action'
-import {State} from './state'
+import {AsyncState, State} from './state'
 
 export type ActionFunction<T> = (content: T) => Action<T>
+
 export interface Rdx<T> {
     type: string
     reset: () => Action<any>
-    reducer: (state?: State<T>, action?: Action<any>) => State<T>
+    reducer: (state?: T, action?: Action<any>) => T
     toState: (reduxState: any) => State<T>
     toCombineReducer: any
 }
-export type RdxAction<T, R> = ActionFunction<T> & Rdx<R>
+
+export interface RdxAsync<T> extends Rdx<AsyncState<T>> {
+    success: (result: T) => Action<T>
+    failed: (error: Error) => Action<Error>
+}
+
+export type RdxAction<T, R> = ActionFunction<T> & Rdx<State<R>>
+export type RdxAsyncAction<T, R> = ActionFunction<T> & RdxAsync<R>
