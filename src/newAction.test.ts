@@ -1,5 +1,4 @@
 import {newAction} from './newAction'
-import {defaultState} from './model/state'
 
 describe('newAction', () => {
     test('should contains the type', () => {
@@ -25,7 +24,7 @@ describe('newAction', () => {
     test('should return default state if reduxState not contains the state', () => {
         const myAction = newAction<number, number>('@my-to-state-wrong', value => value)
         const reduxState = {'@my-to-state': {content: 20}}
-        expect(myAction.toState(reduxState)).toEqual(defaultState)
+        expect(myAction.toState(reduxState).content).toBeUndefined()
     })
     test('should create an object to add on combineReducer', () => {
         const myAction = newAction<number, number>('@my-combined-reducer', value => value)
@@ -34,11 +33,11 @@ describe('newAction', () => {
     describe('reducer', () => {
         test('should return the content', () => {
             const myAction = newAction('@my-newAction-number-with-reducer', value => value)
-            expect(myAction.reducer(undefined, myAction(10))).toEqual({content: 10})
+            expect(myAction.reducer(undefined, myAction(10)).content).toEqual(10)
         })
         test('should return the default state', () => {
             const myAction = newAction('@my-newAction-number-with-reducer', value => value)
-            expect(myAction.reducer()).toEqual({content: undefined})
+            expect(myAction.reducer().content).toBeUndefined()
         })
         test('should return the current state', () => {
             const myAction = newAction('@my-newAction-number-with-reducer', value => value)
@@ -48,7 +47,7 @@ describe('newAction', () => {
         test('should return the default state after reset', () => {
             const myAction = newAction('@my-newAction-number-with-reducer', value => value)
             const currentState = {content: 10}
-            expect(myAction.reducer(currentState, myAction.reset())).toEqual({content: undefined})
+            expect(myAction.reducer(currentState, myAction.reset()).content).toBeUndefined()
         })
     })
 })

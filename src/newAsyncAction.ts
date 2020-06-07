@@ -4,10 +4,10 @@ import {RdxAsyncAction} from './model/rdxAction'
 import {createReducer, isType} from './lib/createReducer'
 
 const defaultExecute = <T>(state: AsyncState<T>): AsyncState<T> => ({...state, isLoading: true})
-export type executeStateType<T> = (state: AsyncState<T>) => AsyncState<T>
+export type executeStateType<T, R> = (state: AsyncState<R>, action: Action<T>) => AsyncState<R>
 
 export const newAsyncAction = <T, R>(actionName: string,
-                                     execute: executeStateType<R> = defaultExecute): RdxAsyncAction<T, R> => {
+                                     execute: executeStateType<T, R> = defaultExecute): RdxAsyncAction<T, R> => {
     const executeType = `${actionName}::execute`
     const successType = `${actionName}::success`
     const failedType = `${actionName}::failed`
