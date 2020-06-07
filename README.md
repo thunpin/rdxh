@@ -56,3 +56,46 @@ const mapDispatch = {
     emptyLanguages: addLanguage.reset,
 }
 ```
+
+
+### newAsyncAction
+standard redux calls
+
+**on the _store_ level**
+```typescript
+import {newAsyncAction} from 'rdxh'
+
+const getUser = newAsyncAction<number, User>('@myApp/myPkg/setLanguage')
+
+const rootReducer = combineReducers({...getUser.toCombineReducer})
+```
+**on the _epic_ level**
+```typescript
+import {Action} from 'rdxh'
+
+export const getUserEpic = (
+action$: ActionsObservable<Action<number>>,
+state$: StateObservable<any>,
+Service: service): Observable<any> =>
+    action$.pipe(
+        ofType(addLanguage.type),
+        switchMap(action => service.getUser$(action.payload).pipe(
+            map((user:User) => getUser.success(user)),
+            catchError((error: Error) => of(getUser.failed(error)))
+        ))
+    )
+```
+**on the _react_ level**
+```typescript
+const mapState = (reduxState: any) => ({
+    user: getUser.toState(reduxState).content,
+    error: getUser.toState(reduxState).error,
+    hasError: getUser.toState(reduxState).hasError,
+    isLoading: getUser.toState(reduxState).isLoading,
+})
+
+const mapDispatch = {
+    getUser: getUser,
+    clearError: getUser.resetError
+}
+```
