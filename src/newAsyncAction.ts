@@ -1,37 +1,54 @@
 import {Action, defaultAction} from './model/action'
-import {AsyncState, defaultAsyncState} from './model/state'
+import {AsyncState, defaultAsyncState, defaultFailedState} from './model/state'
 import {RdxAsyncAction} from './model/rdxAction'
 import {createReducer, isType} from './lib/createReducer'
 
-type toResult<T, R> = (current: T, previous: R) => R
+const defaultExecute = <T>(state: AsyncState<T>): AsyncState<T> => ({...state, isLoading: true})
+export type executeStateType<T> = (state: AsyncState<T>) => AsyncState<T>
 
-export const newAsyncAction = <T, R>(actionName: string, executeState: toResult<T, R>): RdxAsyncAction<T, R> => {
+export const newAsyncAction = <T, R>(actionName: string,
+                                     execute: executeStateType<R> = defaultExecute): RdxAsyncAction<T, R> => {
     const executeType = `${actionName}::execute`
     const successType = `${actionName}::success`
     const failedType = `${actionName}::failed`
+    const resetFailedType = `${actionName}::resetFailed`
     const resetType = `${actionName}::reset`
 
     const newActionObject = <T>(content: T): Action<T> => ({type: executeType, payload: content})
 
     const addType = (actionObject: any) => actionObject.type = actionName
 
-    const addSuccessAction = (actionObject: any) => actionObject.success = (content: R) =>
-        ({type: successType, payload: content})
+    const addSuccessAction = (actionObject: any) => actionObject.success = (content: R) => ({
+        type: successType,
+        payload: content
+    })
 
-    const addErrorAction = (actionObject: any) => actionObject.failed = (error: Error) =>
-        ({type: failedType, payload: error})
+    const addErrorAction = (actionObject: any) => actionObject.failed = (error: Error) => ({
+        type: failedType,
+        payload: error
+    })
 
-    const addClearAction = (actionObject: any) => actionObject.reset = () => ({...defaultAction, type: resetType})
+    const addResetFailedAction = (actionObject: any) => actionObject.resetFailed = () => ({
+        ...defaultAction,
+        type: resetFailedType
+    })
+
+    const addResetAction = (actionObject: any) => actionObject.reset = () => ({...defaultAction, type: resetType})
 
     const addToState = (actionObject: any) => actionObject.toState = (reduxState: any) =>
         reduxState && isType<AsyncState<R>>(reduxState[actionName]) ? reduxState[actionName] : defaultAsyncState
 
     const addReducer = (actionObject: any) => {
         const states = {}
-        states[executeType] = (state, action) => ({
-            ...defaultAsyncState,
-            content: executeState(action.payload, state.content)
+        states[executeType] = execute
+        states[successType] = (state, action: Action<R>) => ({...defaultAsyncState, content: action.payload})
+        states[failedType] = (state, action: Action<Error>) => ({
+            ...state,
+            isLoading: false,
+            hasError: true,
+            error: action.payload
         })
+        states[resetFailedType] = (state) => ({...state, ...defaultFailedState})
         states[resetType] = () => defaultAsyncState
         actionObject.reducer = createReducer<AsyncState<R>>(defaultAsyncState, states)
     }
@@ -46,7 +63,8 @@ export const newAsyncAction = <T, R>(actionName: string, executeState: toResult<
         addType,
         addSuccessAction,
         addErrorAction,
-        addClearAction,
+        addResetFailedAction,
+        addResetAction,
         addToState,
         addReducer,
         addToCombineReducer
