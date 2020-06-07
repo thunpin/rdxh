@@ -59,7 +59,7 @@ const mapDispatch = {
 
 
 ### newAsyncAction
-standard redux calls
+useful on async redux calls
 
 **on the _store_ level**
 ```typescript
