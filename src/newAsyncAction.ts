@@ -14,7 +14,7 @@ export const newAsyncAction = <T, R>(actionName: string,
     const resetFailedType = `${actionName}::resetFailed`
     const resetType = `${actionName}::reset`
 
-    const newActionObject = <T>(content: T): Action<T> => ({type: executeType, payload: content})
+    const newActionObject = (content: T): Action<T> => ({type: executeType, payload: content})
 
     const addType = (actionObject: any) => actionObject.type = actionName
 

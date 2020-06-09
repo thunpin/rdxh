@@ -69,14 +69,14 @@ describe('newAsyncAction', () => {
             expect(myAction.reducer(state, myAction.failed(error))).toEqual({
                 ...defaultAsyncState,
                 hasError: true,
-                error: error,
+                error,
                 content: 20
             })
         })
         test('should clear the error ', () => {
             const myAction = newAsyncAction('@my-newAsyncAction-number-with-reducer')
             const error = new Error('my-error')
-            const state = {...defaultAsyncState, hasError: true, error: error, content: 20}
+            const state = {...defaultAsyncState, hasError: true, error, content: 20}
             expect(myAction.reducer(state, myAction.resetFailed())).toEqual({...defaultAsyncState, content: 20})
         })
         test('should return the default state after reset', () => {

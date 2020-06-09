@@ -2,18 +2,15 @@ import {newAction} from './newAction'
 
 describe('newAction', () => {
     test('should contains the type', () => {
-        const myAction = newAction('@my-newAction', () => {
-        })
+        const myAction = newAction('@my-newAction', () => '')
         expect(myAction.type).toBe('@my-newAction')
     })
     test('should return an Action', () => {
-        const myAction = newAction<number, any>('@my-newAction-number', () => {
-        })
+        const myAction = newAction<number, any>('@my-newAction-number', () => 'any-value')
         expect(myAction(20)).toEqual({type: '@my-newAction-number::execute', payload: 20})
     })
     test('should returns defaultAction', () => {
-        const myAction = newAction<number, any>('@my-newAction-number', () => {
-        })
+        const myAction = newAction<number, any>('@my-newAction-number', () => ({}))
         expect(myAction.reset()).toEqual({type: '@my-newAction-number::reset', payload: undefined})
     })
     test('should convert reduxState to State', () => {
