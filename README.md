@@ -28,10 +28,12 @@ const rootReducer = combineReducers({
 **on the _epic_ level**
 ```typescript
 import {Action} from 'rdxh'
+import {Observable, ...} from 'rxjs'
+import {ActionsObservable, ofType, StateObservable} from 'redux-observable'
 
 export const addLanguageEpic = (
 action$: ActionsObservable<Action<string>>,
-state$: StateObservable<any>): any =>
+state$: StateObservable<any>): Observable<any> =>
     action$.pipe(
         ofType(addLanguage.type),
         switchMap(action => {
@@ -72,11 +74,13 @@ const rootReducer = combineReducers({...getUser.toCombineReducer})
 **on the _epic_ level**
 ```typescript
 import {Action} from 'rdxh'
+import {Observable, ...} from 'rxjs'
+import {ActionsObservable, ofType, StateObservable} from 'redux-observable'
 
 export const getUserEpic = (
 action$: ActionsObservable<Action<number>>,
 state$: StateObservable<any>,
-Service: service): any =>
+Service: service): Observable<any> =>
     action$.pipe(
         ofType(getUser.type),
         switchMap(action => service.getUser$(action.payload).pipe(
