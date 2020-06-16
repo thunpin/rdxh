@@ -46,8 +46,8 @@ describe('newAsyncAction', () => {
     })
     test('should convert reduxState to State', () => {
         const myAction = newAsyncAction<number, number>('@my-to-state')
-        const reduxState = {'@my-to-state': {content: 20}}
-        expect(myAction.toState(reduxState)).toEqual({content: 20})
+        const reduxState = {'@my-to-state': {content: 20, isLoading: false}}
+        expect(myAction.toState(reduxState)).toEqual({content: 20, isLoading: false})
     })
     test('should return default state if reduxState not contains the state', () => {
         const myAction = newAsyncAction<number, number>('@my-to-state-wrong')

@@ -7,7 +7,7 @@ export interface Rdx<T> {
     type: string
     reset: () => Action<any>
     reducer: (state?: T, action?: Action<any>) => T
-    toState: (reduxState: any) => State<T>
+    toState: (reduxState: any) => T
     toCombineReducer: any
 }
 
