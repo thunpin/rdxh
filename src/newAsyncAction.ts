@@ -8,7 +8,7 @@ export type executeStateType<T, R> = (state: AsyncState<R>, action: Action<T>) =
 
 export const newAsyncAction = <T, R>(actionName: string,
                                      execute: executeStateType<T, R> = defaultExecute): RdxAsyncAction<T, R> => {
-    const executeType = `${actionName}::execute`
+    const executeType = `${actionName}`
     const successType = `${actionName}::success`
     const failedType = `${actionName}::failed`
     const resetFailedType = `${actionName}::resetFailed`
@@ -16,7 +16,13 @@ export const newAsyncAction = <T, R>(actionName: string,
 
     const newActionObject = (content: T): Action<T> => ({type: executeType, payload: content})
 
-    const addType = (actionObject: any) => actionObject.type = actionName
+    const addType = (actionObject: any) => actionObject.type = executeType
+
+    const addSuccessType = (actionObject: any) => actionObject.successType = successType
+
+    const addFailedType = (actionObject: any) => actionObject.failedType = failedType
+
+    const addResetType = (actionObject: any) => actionObject.resetType = resetType
 
     const addSuccessAction = (actionObject: any) => actionObject.success = (content: R) => ({
         type: successType,
@@ -61,6 +67,9 @@ export const newAsyncAction = <T, R>(actionName: string,
 
     return [
         addType,
+        addSuccessType,
+        addFailedType,
+        addResetType,
         addSuccessAction,
         addErrorAction,
         addResetFailedAction,

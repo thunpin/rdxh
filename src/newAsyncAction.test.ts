@@ -6,9 +6,25 @@ describe('newAsyncAction', () => {
         const myAction = newAsyncAction('@my-newAsyncAction')
         expect(myAction.type).toBe('@my-newAsyncAction')
     })
+    test('should contains the success type', () => {
+        const myAction = newAsyncAction('@my-newAsyncAction')
+        expect(myAction.successType).toBe('@my-newAsyncAction::success')
+    })
+    test('should contains the failed type', () => {
+        const myAction = newAsyncAction('@my-newAsyncAction')
+        expect(myAction.failedType).toBe('@my-newAsyncAction::failed')
+    })
+    test('should contains the reset type', () => {
+        const myAction = newAsyncAction('@my-newAsyncAction')
+        expect(myAction.resetType).toBe('@my-newAsyncAction::reset')
+    })
+    test('should contains the type', () => {
+        const myAction = newAsyncAction('@my-newAsyncAction')
+        expect(myAction.type).toBe('@my-newAsyncAction')
+    })
     test('should return an Action', () => {
         const myAction = newAsyncAction<number, any>('@my-newAsyncAction-number')
-        expect(myAction(20)).toEqual({type: '@my-newAsyncAction-number::execute', payload: 20})
+        expect(myAction(20)).toEqual({type: '@my-newAsyncAction-number', payload: 20})
     })
     test('should return success Action', () => {
         const myAction = newAsyncAction<number, string>('@my-newAsyncAction-result')

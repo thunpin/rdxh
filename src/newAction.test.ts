@@ -7,7 +7,7 @@ describe('newAction', () => {
     })
     test('should return an Action', () => {
         const myAction = newAction<number, any>('@my-newAction-number', () => 'any-value')
-        expect(myAction(20)).toEqual({type: '@my-newAction-number::execute', payload: 20})
+        expect(myAction(20)).toEqual({type: '@my-newAction-number', payload: 20})
     })
     test('should returns defaultAction', () => {
         const myAction = newAction<number, any>('@my-newAction-number', () => ({}))

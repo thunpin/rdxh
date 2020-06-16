@@ -12,6 +12,9 @@ export interface Rdx<T> {
 }
 
 export interface RdxAsync<T> extends Rdx<AsyncState<T>> {
+    successType: string
+    failedType: string
+    resetType: string
     success: (result: T) => Action<T>
     failed: (error: Error) => Action<Error>
     resetFailed: () => Action<any>
