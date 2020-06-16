@@ -31,7 +31,7 @@ import {Action} from 'rdxh'
 
 export const addLanguageEpic = (
 action$: ActionsObservable<Action<string>>,
-state$: StateObservable<any>): Observable<any> =>
+state$: StateObservable<any>): any =>
     action$.pipe(
         ofType(addLanguage.type),
         switchMap(action => {
@@ -76,9 +76,9 @@ import {Action} from 'rdxh'
 export const getUserEpic = (
 action$: ActionsObservable<Action<number>>,
 state$: StateObservable<any>,
-Service: service): Observable<any> =>
+Service: service): any =>
     action$.pipe(
-        ofType(addLanguage.type),
+        ofType(getUser.type),
         switchMap(action => service.getUser$(action.payload).pipe(
             map((user:User) => getUser.success(user)),
             catchError((error: Error) => of(getUser.failed(error)))
