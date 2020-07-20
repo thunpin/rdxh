@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-	"build": "rm -fr ./dist && tsc",
+    "build": "rm -fr ./dist && tsc",
     "test": "jest",
-	"lint": "tslint -p tsconfig.json"
+    "lint": "tslint -p tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -39,7 +39,14 @@
     ]
   },
   "dependencies": {},
-  "include": ["src"],
-  "exclude": ["node_modules", "coverage"],
-  "files": ["dist/**/*"]
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "coverage"
+  ],
+  "files": [
+    "dist/**/*"
+  ]
 }
